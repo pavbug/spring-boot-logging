@@ -56,10 +56,42 @@
 
 	</appender>
 
+	<appender name="FILE-SPECIFIC" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator class="ch.qos.logback.classic.sift.MDCBasedDiscriminator">
+			<key>logType</key>
+			<defaultValue>default</defaultValue>
+		</discriminator>
+
+		<sift>
+			<appender name="FILE-${logType}" class="ch.qos.logback.core.FileAppender">
+				<file>logs/${logType}.log</file>
+				<encoder>
+					<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+				</encoder>
+			</appender>
+		</sift>
+	</appender>
+
+	<!--<appender name="FILE-SPECIFIC" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator class="ch.qos.logback.classic.sift.MarkerBasedDiscriminator">
+			<defaultValue>default</defaultValue>
+		</discriminator>
+
+		<sift>
+			<appender name="FILE-${marker}" class="ch.qos.logback.core.FileAppender">
+				<file>logs/${marker}.log</file>
+				<append>true</append>
+				<encoder>
+					<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+				</encoder>
+			</appender>
+		</sift>
+	</appender>-->
+
 	<!-- Send logs to both console and file audit -->
-	<logger name="com.javatechie.spring.logging.api" level="debug"
-		additivity="false">
+	<logger name="com.javatechie.spring.logging.api" level="debug" additivity="false">
 		<appender-ref ref="FILE-AUDIT" />
+		<appender-ref ref="FILE-SPECIFIC" />
 		<appender-ref ref="STDOUT" />
 	</logger>
 

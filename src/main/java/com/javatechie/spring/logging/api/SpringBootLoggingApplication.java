@@ -1,7 +1,6 @@
 package com.javatechie.spring.logging.api;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +21,13 @@ public class SpringBootLoggingApplication {
 		}
 		String response = "Hi " + name + " Welcome to Java Techie";
 		log.debug("Response {}", response);
+
+//		Marker performanceMarker = MarkerFactory.getMarker("performance");
+//		log.debug(performanceMarker, "Response {}", response);
+		MDC.put("logType", "perf");
+		log.debug("Performance log: {}", name);
+		MDC.remove("logType");
+
 		return response;
 	}
 
