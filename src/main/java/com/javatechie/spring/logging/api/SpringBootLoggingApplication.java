@@ -28,7 +28,8 @@ public class SpringBootLoggingApplication {
 //		log.debug("Performance log: {}", name);
 //		MDC.remove("logType");
 		Marker perfMarker = MarkerFactory.getMarker("PERF");
-		log.debug(perfMarker, "Performance marker log: {}", name);
+		log.trace(perfMarker, "Performance marker log: {}", name);
+		log.trace("This name: {}", name);
 
 		return response;
 	}
