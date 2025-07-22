@@ -3,14 +3,14 @@
 
 	<property name="DEV_HOME" value="logs" />
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<Pattern>
-				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} -
-				%msg%n
-			</Pattern>
-		</layout>
-	</appender>
+<!--	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--		<layout class="ch.qos.logback.classic.PatternLayout">-->
+<!--			<Pattern>-->
+<!--				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - -->
+<!--				%msg%n-->
+<!--			</Pattern>-->
+<!--		</layout>-->
+<!--	</appender>-->
 
 	<appender name="FILE-AUDIT"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -56,20 +56,70 @@
 
 	</appender>
 
+<!--	<appender name="FILE-SPECIFIC" class="ch.qos.logback.classic.sift.SiftingAppender">-->
+<!--		<discriminator class="ch.qos.logback.classic.sift.MDCBasedDiscriminator">-->
+<!--			<key>logType</key>-->
+<!--&lt;!&ndash;			<defaultValue>null</defaultValue>&ndash;&gt;-->
+<!--		</discriminator>-->
+
+<!--		<sift>-->
+<!--			<appender name="FILE-${logType}" class="ch.qos.logback.core.FileAppender">-->
+<!--				<file>/tmp/logs/${logType}.log</file>-->
+<!--				<encoder>-->
+<!--					<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>-->
+<!--				</encoder>-->
+<!--			</appender>-->
+<!--		</sift>-->
+<!--	</appender>-->
+
+<!--	<appender name="SIFT" class="ch.qos.logback.classic.sift.SiftingAppender">-->
+<!--		<discriminator class="com.javatechie.spring.logging.api.LogDiscriminator"/>-->
+<!--		<sift>-->
+<!--			<appender name="x" class="ch.qos.logback.core.FileAppender">-->
+<!--				<file>/tmp/logs/app.log</file>-->
+<!--				<layout class="ch.qos.logback.classic.PatternLayout">-->
+<!--					<pattern>%d{HH:mm:ss:SSS} | %-5level | %logger{20} | %msg%n%rEx</pattern>-->
+<!--				</layout>-->
+<!--			</appender>-->
+<!--		</sift>-->
+<!--	</appender>-->
+
 	<appender name="FILE-SPECIFIC" class="ch.qos.logback.classic.sift.SiftingAppender">
 		<discriminator class="ch.qos.logback.classic.sift.MDCBasedDiscriminator">
 			<key>logType</key>
-			<defaultValue>default</defaultValue>
+			<defaultValue>null</defaultValue> <!-- Prevent fallback appender creation -->
 		</discriminator>
 
 		<sift>
 			<appender name="FILE-${logType}" class="ch.qos.logback.core.FileAppender">
-				<file>logs/${logType}.log</file>
+				<filter class="ch.qos.logback.classic.filter.EvaluatorFilter">
+					<evaluator class="ch.qos.logback.classic.boolex.JaninoEventEvaluator">
+<!--						<expression>mdc['logType'] == 'perf'</expression>-->
+						<expression>
+							System.out.println("MDC: "+mdc);
+							return false;
+						</expression>
+					</evaluator>
+					<OnMismatch>DENY</OnMismatch>
+					<OnMatch>NEUTRAL</OnMatch>
+				</filter>
+				<file>/tmp/logs/${logType}.log</file>
+				<append>true</append>
 				<encoder>
 					<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
 				</encoder>
 			</appender>
 		</sift>
+	</appender>
+
+	<appender name="STDOUT3" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="com.javatechie.spring.logging.api.MarkerFilter" />
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} -
+				%msg%n
+			</Pattern>
+		</layout>
 	</appender>
 
 	<!--<appender name="FILE-SPECIFIC" class="ch.qos.logback.classic.sift.SiftingAppender">
@@ -92,7 +142,9 @@
 	<logger name="com.javatechie.spring.logging.api" level="debug" additivity="false">
 		<appender-ref ref="FILE-AUDIT" />
 		<appender-ref ref="FILE-SPECIFIC" />
-		<appender-ref ref="STDOUT" />
+<!--		<appender-ref ref="SIFT" />-->
+<!--		<appender-ref ref="STDOUT" />-->
+		<appender-ref ref="STDOUT3" />
 	</logger>
 
 	<root level="error">
