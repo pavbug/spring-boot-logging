@@ -12,8 +12,7 @@
 <!--		</layout>-->
 <!--	</appender>-->
 
-	<appender name="FILE-AUDIT"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<appender name="FILE-AUDIT" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${DEV_HOME}/debug.log</file>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<Pattern>
@@ -116,10 +115,29 @@
 		<filter class="com.javatechie.spring.logging.api.MarkerFilter" />
 		<layout class="ch.qos.logback.classic.PatternLayout">
 			<Pattern>
-				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} -
-				%msg%n
+				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
 			</Pattern>
 		</layout>
+	</appender>
+
+	<appender name="FILE-PERF" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/tmp/logs/perf.log</file>
+		<filter class="com.javatechie.spring.logging.api.MarkerFilter" />
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>/tmp/logs/perf.%d{yyyy-MM-dd}.%i.log
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+					class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
 	</appender>
 
 	<!--<appender name="FILE-SPECIFIC" class="ch.qos.logback.classic.sift.SiftingAppender">
@@ -141,10 +159,11 @@
 	<!-- Send logs to both console and file audit -->
 	<logger name="com.javatechie.spring.logging.api" level="debug" additivity="false">
 		<appender-ref ref="FILE-AUDIT" />
-		<appender-ref ref="FILE-SPECIFIC" />
+<!--		<appender-ref ref="FILE-SPECIFIC" />-->
 <!--		<appender-ref ref="SIFT" />-->
 <!--		<appender-ref ref="STDOUT" />-->
 		<appender-ref ref="STDOUT3" />
+		<appender-ref ref="FILE-PERF" />
 	</logger>
 
 	<root level="error">
