@@ -1,0 +1,14 @@
+15:36:42.450 [restartedMain] INFO  c.j.s.l.a.SpringBootLoggingApplication - Starting SpringBootLoggingApplication using Java 21.0.7 with PID 14127 (/home/pav/Samples/Java/spring-boot-logging/target/classes started by pav in /home/pav/Samples/Java/spring-boot-logging)
+15:36:42.453 [restartedMain] DEBUG c.j.s.l.a.SpringBootLoggingApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+15:36:42.454 [restartedMain] INFO  c.j.s.l.a.SpringBootLoggingApplication - No active profile set, falling back to 1 default profile: "default"
+15:36:43.361 [restartedMain] INFO  c.j.s.l.a.SpringBootLoggingApplication - Started SpringBootLoggingApplication in 1.218 seconds (process running for 1.625)
+15:38:13.150 [http-nio-8080-exec-1] DEBUG c.j.s.l.a.SpringBootLoggingApplication - Request abc
+15:38:13.150 [http-nio-8080-exec-1] DEBUG c.j.s.l.a.SpringBootLoggingApplication - Response Hi abc Welcome to Java Techie
+15:38:23.653 [http-nio-8080-exec-3] DEBUG c.j.s.l.a.SpringBootLoggingApplication - Request abcd
+15:38:23.654 [http-nio-8080-exec-3] DEBUG c.j.s.l.a.SpringBootLoggingApplication - Response Hi abcd Welcome to Java Techie
+15:40:22.510 [restartedMain] INFO  c.j.s.l.a.SpringBootLoggingApplication - Starting SpringBootLoggingApplication using Java 21.0.7 with PID 14597 (/home/pav/Samples/Java/spring-boot-logging/target/classes started by pav in /home/pav/Samples/Java/spring-boot-logging)
+15:40:22.513 [restartedMain] DEBUG c.j.s.l.a.SpringBootLoggingApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
+15:40:22.514 [restartedMain] INFO  c.j.s.l.a.SpringBootLoggingApplication - No active profile set, falling back to 1 default profile: "default"
+15:40:23.402 [restartedMain] INFO  c.j.s.l.a.SpringBootLoggingApplication - Started SpringBootLoggingApplication in 1.15 seconds (process running for 1.553)
+15:40:38.387 [http-nio-8080-exec-1] DEBUG c.j.s.l.a.SpringBootLoggingApplication - Request qwerty
+15:40:38.388 [http-nio-8080-exec-1] DEBUG c.j.s.l.a.SpringBootLoggingApplication - Response Hi qwerty Welcome to Java Techie
